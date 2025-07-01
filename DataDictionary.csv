@@ -1,0 +1,50 @@
+,,
+,Data source / Column,Description
+,Inventory,"Actual Monthly inventory snapsnot captured at the end of each month.
+Granularity is at Plant + Material + Batch."
+,BALANCE_AS_OF_DATE,The time inventory snapshot is recorded
+,PLANT_NAME,Name of the plant/warehouse
+,MATERIAL_NAME,Product that is being stocked
+,BATCH_NUMBER,"Group of material produced in the same production run or shares the same specifications.
+Similar in concepts of vaccines batch, iphone production lot"
+,UNRESRICTED_STOCK,Total quantity of a material batch that is physically available in the warehouse
+,STOCK_UNIT,Unit of measurement for unrestricted stock
+,STOCK_SELL_VALUE,"Sell value of the inventory record (material, batch, stock quanity)"
+,CURRENCY,Currency for stock sell value
+,,
+,Inbound,Actual Transactions of material imports into each warehouse
+,INBOUND_DATE,Transaction date
+,PLANT_NAME,Name of the plant/warehouse
+,MATERIAL_NAME,Product that is being imported into the warehouse
+,NET_QUANTITY_MT,Total quantity in Metric ton
+,,
+,Outbound,Actual Transaction of material exports out of each warehouse - represent sales with customer
+,OUTBOUND_DATE,Transaction date
+,PLANT_NAME,Name of the plant/warehouse
+,MODE_OF_TRANSPORT,"Transportation methold - Truck, Marine"
+,MATERIAL_NAME,Product that is being shipped out
+,CUSTOMER_NUMBER,Receipient of the material in the outbound transaction
+,NET_QUANTITY_MT,Total quantity in Metric ton
+,,
+,Material,Material master data
+,MATERIAL_NAME,"Product that is being stocked, imported, shipped out"
+,POLYMER_TYPE,Material Polymer type
+,SHELF_LIFE_IN_MONTH,"Number of months each material batch can be stored in the warehouse without losing quality.
+Material batch past shelf-life will be downgraded to lower quality"
+,DOWNGRADE_VALUE_LOST_PERCENT,Average sell value lost for material batch past shelf-life (downgraded). Unit it is Percent.
+,,
+,OperationCost,Warehouse storage/transfer cost
+,Inventory Storage per MT per day,"Cost of storage per MT per day.
+Applicable for planned warehouse capacity and temporary additional storage to prevent overflow
+Example - due to higher inbound than planned, ask for extra 10 Kilo Ton for the next 3 months. Additional cost = this column * 10 * 90"
+,Transfer cost per container (24.75MT),"Transportation cost per container.
+Potential overflow prevention, transfer some materail batch to other warehouse. Material needs to be transfered by a 24.75MT container.
+Example - due to lower outbound than planned, shipped out 110 MT of material to other warehouses. Additional cost = this column * 5 (5 containers requried)"
+,,
+,Forecast,Forecasted outbound (sales) and maximum capacity of each warehouse
+,Predicted Outbound (KT),Outbound forecast of each month. Can be compare with actual in Outbound.
+,Predicted Inventory (KT),Inventory forecast of each month. Can be compare with actual in Inventory.
+,,
+,Appendix,
+,MT,Metric Ton
+,KT,Kiloton (1000MT)
