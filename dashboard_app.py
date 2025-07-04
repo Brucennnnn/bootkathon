@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import os
+from rag_chatbot import get_ai_response
 
 def clean_data_summary(df):
     # Clean column names by removing special characters and extra spaces
@@ -40,23 +41,23 @@ def clean_data_summary(df):
 
 def main():
     st.set_page_config(layout="wide")
-    page = st.sidebar.radio("Navigation", ["Inventory Dashboard", "Inventory Recommendations"])
+    page = st.sidebar.radio("Navigation", ["Inventory Dashboard", "Inventory Recommendations", "Chatbot"])
+
+    file_path = os.path.join(os.getcwd(), 'Data_Analysis(Inventory Summary).csv')
+    
+    if not os.path.exists(file_path):
+        st.error(f"File not found: {file_path}")
+        st.stop()
+
+    try:
+        df = pd.read_csv(file_path)
+        df = clean_data_summary(df)
+    except Exception as e:
+        st.error(f"Error loading or cleaning data: {e}")
+        st.stop()
 
     if page == "Inventory Dashboard":
         st.title("Inventory Management Dashboard")
-
-        file_path = os.path.join(os.getcwd(), 'Data_Analysis(Inventory Summary).csv')
-        
-        if not os.path.exists(file_path):
-            st.error(f"File not found: {file_path}")
-            st.stop()
-
-        try:
-            df = pd.read_csv(file_path)
-            df = clean_data_summary(df)
-        except Exception as e:
-            st.error(f"Error loading or cleaning data: {e}")
-            st.stop()
 
         st.sidebar.header("Filters")
 
@@ -142,6 +143,8 @@ def main():
 
     elif page == "Inventory Recommendations":
         recommendations_page()
+    elif page == "Chatbot":
+        chatbot_page(df)
 
 def recommendations_page():
     st.title("Inventory Recommendations")
@@ -157,6 +160,19 @@ def recommendations_page():
     except Exception as e:
         st.error(f"Error loading inventory recommendations data: {e}")
         st.stop()
+
+from rag_chatbot import get_ai_response
+
+def chatbot_page(df):
+    st.title("Inventory Chatbot (AI Powered)")
+    st.write("Ask me questions about the inventory data. For example: 'What is the stock for MAT-0001?' or 'Show me details about Plant A'.")
+
+    user_query = st.text_input("Your question:")
+
+    if user_query:
+        with st.spinner("Thinking..."):
+            response = get_ai_response(user_query, df)
+            st.write(f"**Chatbot:** {response}")
 
 if __name__ == '__main__':
     main()

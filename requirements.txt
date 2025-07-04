@@ -7,3 +7,11 @@ prophet
 statsmodels
 matplotlib
 scikit-learn
+langchain
+sentence-transformers
+faiss-cpu
+huggingface_hub
+langchain-community
+langchain-huggingface
+google-generativeai
+tabulate
